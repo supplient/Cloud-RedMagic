@@ -127,7 +127,11 @@ function refreshInitStatus() {
 }
 
 // --------------------------------------------
-// Global init work after page is load
+// Global window events
 window.onload = function(){
+    updateBoardViewBoxForWindowResize();
+}
 
+window.onresize = function(){
+    updateBoardViewBoxForWindowResize();
 }
