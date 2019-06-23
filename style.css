@@ -1,15 +1,8 @@
-#init_status {
-    display: flex block;
-    width: auto;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
 #ac_trigger_box {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 5px;
+    padding: 7px;
 }
 
 .ac_item {
@@ -56,4 +49,36 @@
     font-size: 36px;
     text-align: center;
     font-family: SourceHanSansSC-regular;
+}
+
+button {
+    border: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5;
+    margin-bottom: 5;
+    border-radius: 10px;
+    width: 70px;
+    height: 42px;
+    box-shadow: 0 6px #999;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:active {
+    transform: translateY(3px);
+    box-shadow: 0 3px #666;
+    border: none;
+}
+
+#roll_btn {
+    background-color: rgb(255, 47, 47);
+    color: #ffe4e4;
+}
+
+#roll_btn:hover {
+    background-color: #d12a2a;
 }

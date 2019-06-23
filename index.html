@@ -1,27 +1,29 @@
+<!DOCTYPE html>
 <html>
 <head>
   <title>Cloud Red Magic</title>
-  <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css"/>
   <link rel="stylesheet" type="text/css" href="style.css" />
+  <script src="script.js"></script>
 </head>
 <body>
-www
-<div id="init_status">
+  <div id="init_status">
 
-  <div id="ac_trigger_box">
-    <img src="60px-技能图标_赤飞石.png" class="ac_item ac_triggered"/>
-    <img src="60px-技能图标_赤火炎.png" class="ac_item"/>
-  </div>
-
-  <div class="magic_value_box">
-    <div class="magic_value_half_box half_box_left" style="background-color: rgba(255, 99, 99, 1)">
-      <div class="magic_value_num" style="color:white">82</div>
+    <div id="ac_trigger_box">
+      <img name="stone" src="60px-技能图标_赤飞石.png" class="ac_item ac_triggered"/>
+      <img name="fire" src="60px-技能图标_赤火炎.png" class="ac_item"/>
     </div>
-    <div class="magic_value_half_box half_box_right" style="background-color: rgba(65, 142, 230, 1)">
-      <div class="magic_value_num" style="color:black">64</div>
-    </div>
-  </div>
 
-</div>
+    <div class="magic_value_box">
+      <div class="magic_value_half_box half_box_left" style="background-color: rgba(255, 99, 99, 1)">
+        <div name="white" class="magic_value_num" style="color:white">82</div>
+      </div>
+      <div class="magic_value_half_box half_box_right" style="background-color: rgba(65, 142, 230, 1)">
+        <div name="black" class="magic_value_num" style="color:black">64</div>
+      </div>
+    </div>
+
+    <button id="roll_btn" onclick="onRollBtn();">ROLL</button>
+
+  </div><!--init_status-->
 </body>
 </html>
