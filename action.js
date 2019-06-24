@@ -1,5 +1,9 @@
 
 // --------------------------------------------
+// AC Macro
+let AC_FIRE = "fire";
+let AC_STONE = "stone";
+
 // Action concerned Class Defination
 class Action {
     constructor(icon_path) {
@@ -7,19 +11,15 @@ class Action {
     }
 }
 
-class TriggerAction extends Action{
+class GCDAction extends Action{
 }
 
-// Action MACRO
-let AC_FIRE = "fire";
-let AC_STONE = "stone";
-
-// global action_map declaration and init process
-function initTriggerActionMap() {
+// global_action_map init process
+function initGlobalActionMap() {
     let action_map = new Map([
-        [AC_FIRE, new TriggerAction("resource/60px-技能图标_赤火炎.png")],
-        [AC_STONE, new TriggerAction("resource/60px-技能图标_赤飞石.png")],
+        [AC_FIRE, new GCDAction("resource/60px-技能图标_赤火炎.png")],
+        [AC_STONE, new GCDAction("resource/60px-技能图标_赤飞石.png")],
     ])
     return action_map;
 }
-let trigger_action_map = initTriggerActionMap();
+let g_action_map = initGlobalActionMap();

@@ -9,7 +9,7 @@ class InitStatus{
 
         // trigger action status
         let temp_map = new Map();
-        for (const ac_name of trigger_action_map.keys()) {
+        for (const ac_name of g_action_map.keys()) {
             temp_map.set(ac_name, false);
         }
         this.ac_triggered_map = temp_map;
