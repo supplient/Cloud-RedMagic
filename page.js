@@ -77,6 +77,12 @@ function randomInitStatus() {
     // Assign new random values to init_status
     init_status.white_value = getRandomMagicValue();
     init_status.black_value = getRandomMagicValue();
+    // Make sure balance is not broken
+    let diff = Math.abs(init_status.white_value - init_status.black_value);
+    while (diff > 30) {
+        init_status.black_value = getRandomMagicValue();
+        diff = Math.abs(init_status.white_value - init_status.black_value);
+    }
 
     for (const ac_name of init_status.ac_triggered_map.keys()) {
         let is_triggered = getRandomTrueFalse();
