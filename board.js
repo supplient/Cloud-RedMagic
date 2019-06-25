@@ -1,3 +1,5 @@
+
+// SVG element itself's control functions
 function updateBoardViewBox(opts) {
     let board = document.getElementById("draw_board");
     let viewbox_str_list = board.getAttribute("view_box").split(" ");
