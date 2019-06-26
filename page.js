@@ -73,6 +73,11 @@ function refreshInitStatus() {
 // --------------------------------------------
 // Global window events
 window.onload = function(){
+    // regist elements' event listeners
+    document.getElementById("draw_board").onmousedown = SVG_onMouseDown;
+    document.getElementById("draw_board").onmousemove = SVG_onMouseMove;
+    document.getElementById("draw_board").onmouseup   = SVG_onMouseUp;
+
     updateBoardViewBoxForWindowResize();
 }
 
