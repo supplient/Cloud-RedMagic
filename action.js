@@ -16,11 +16,11 @@ function initGlobalBuffMap() {
     let buff_map = new Map([
         [BUFF_FIRE, new Buff(
             "赤火炎预备",
-            "resource/buff_赤火炎",
+            "resource/buff_赤火炎.png",
         )],
         [BUFF_STONE, new Buff(
             "赤飞石预备",
-            "resource/buff_赤飞石",
+            "resource/buff_赤飞石.png",
         )],
     ]);
     return buff_map;
