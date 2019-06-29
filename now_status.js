@@ -39,6 +39,6 @@ function removeBuffItemDOM(buff_name) {
 
 function changeBuffTime(buff_name, rest_time) {
     let buff_item_DOM = getBuffItemDOM(buff_name);
-    let buff_time_DOM = buff_item_DOM.getElementsByClassName("span");
+    let buff_time_DOM = buff_item_DOM.getElementsByTagName("span").item(0);
     buff_time_DOM.innerText = String(rest_time);
 }
