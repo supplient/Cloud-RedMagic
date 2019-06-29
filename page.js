@@ -53,18 +53,19 @@ function switchTriggerAction(ac_name, is_triggered=undefined){
         ele.classList.remove("ac_triggered");
 }
 
-function getMagicValueNumDOM(name) {
-    return document.querySelector("div.magic_value_num[name=" + name + "]");
+function getMagicValueNumDOM(box_name, magic_name) {
+    let box = document.querySelector("div.magic_value_box[name=" + box_name + "]");
+    return box.querySelector("div.magic_value_num[name=" + magic_name + "]");
 }
 
-function setMagicValue(name, value) {
-    let ele = getMagicValueNumDOM(name);
+function setMagicValue(box_name, magic_name, value) {
+    let ele = getMagicValueNumDOM(box_name, magic_name);
     ele.innerText = String(value);
 }
 
 function refreshInitStatus() {
-    setMagicValue("white", init_status.white_value);
-    setMagicValue("black", init_status.black_value);
+    setMagicValue("init", "white", init_status.white_value);
+    setMagicValue("init", "black", init_status.black_value);
     for (const [ac_name, is_triggered] of init_status.ac_triggered_map) {
         switchTriggerAction(ac_name, is_triggered);
     }
@@ -79,6 +80,11 @@ window.onload = function(){
     document.getElementById("draw_board").onmouseup   = SVG_onMouseUp;
 
     updateBoardViewBoxForWindowResize();
+
+    // DEBUG:
+    createAndInsertBuffDOM("stone", 22);
+    setMagicValue("now", "white", 28);
+    setMagicValue("now", "black", 88);
 }
 
 window.onresize = function(){

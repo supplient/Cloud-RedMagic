@@ -4,8 +4,10 @@
   <title>Cloud Red Magic</title>
 
   <link rel="stylesheet" type="text/css" href="page.css" />
+  <link rel="stylesheet" type="text/css" href="now_status.css" />
   <link rel="stylesheet" type="text/css" href="board.css" />
 
+  <script src="now_status.js"></script>
   <script src="random_func.js"></script>
   <script src="action.js"></script>
   <script src="board.js"></script>
@@ -20,7 +22,7 @@
       <img name="fire" src="resource/60px-技能图标_赤火炎.png" class="ac_item"/>
     </div>
 
-    <div class="magic_value_box">
+    <div name="init" class="magic_value_box">
       <div class="magic_value_half_box half_box_left" style="background-color: rgba(255, 99, 99, 1)">
         <div name="white" class="magic_value_num" style="color:white">82</div>
       </div>
@@ -32,6 +34,26 @@
     <button id="roll_btn" onclick="onRollBtn();">ROLL</button>
 
   </div><!--init_status-->
+
+  <div id="now_status">
+
+    <div id="buff_bar">
+      <!--<div class="buff_item">-->
+        <!--<span class="buff_time">22</span>-->
+        <!--<img class="buff_icon" name="stone" src="resource/buff_赤飞石.png"/>-->
+      <!--</div>-->
+    </div><!--buff_bar-->
+
+    <div name="now" class="magic_value_box">
+      <div class="magic_value_half_box half_box_left" style="background-color: rgba(255, 99, 99, 1)">
+        <div name="white" class="magic_value_num" style="color:white">82</div>
+      </div>
+      <div class="magic_value_half_box half_box_right" style="background-color: rgba(65, 142, 230, 1)">
+        <div name="black" class="magic_value_num" style="color:black">64</div>
+      </div>
+    </div><!--magic_value_box-->
+
+  </div><!--now_status-->
 
   <svg id="draw_board" viewBox="0 0 0 0">
     <defs>
