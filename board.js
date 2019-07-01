@@ -1,11 +1,33 @@
-// node class defination
-class Node {
-    constructor(prev=null) {
-        this.prev = prev;
+// work buff class defination
+class WorkBuff {
+    constructor(buff_obj, rest_time) {
+        this.buff_obj = buff_obj;
+        this.rest_time = rest_time;
     }
 }
 
-// node control functions
+// node concerned class defination
+class NodeStatus {
+    constructor(prev, 
+        white_magic, black_magic, work_buff_list
+        ) {
+        this.prev = prev;
+        this.white_magic = white_magic;
+        this.black_magic = black_magic;
+        this.work_buff_list = work_buff_list;
+
+        this.gcd_action = null;
+        this.ins_action_0 = null;
+        this.ins_action_1 = null;
+    }
+}
+
+// g_node_status_map declaration
+// id => object
+// e.g. "0_2" => object
+//      means the 1st gcd's 3rd branch's node status.
+let g_node_status_map = new Map();
+
 
 // view drag functions
 let drag_switch = false;

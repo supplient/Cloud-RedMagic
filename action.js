@@ -53,6 +53,7 @@ class GCDAction extends Action{
         this.need_buff = buff_opts.need_buff || undefined;
         this.cause_buff = buff_opts.cause_buff || undefined;
         this.cause_rate = buff_opts.cause_rate || undefined;
+        this.cause_buff_time = buff_opts.cause_buff_time || undefined;
     }
 }
 
