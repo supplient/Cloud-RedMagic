@@ -85,6 +85,11 @@ window.onload = function(){
     createAndInsertBuffDOM("stone", 22);
     setMagicValue("now", "white", 28);
     setMagicValue("now", "black", 88);
+
+    // let ele = document.querySelector("g[name='0_0']");
+    // console.debug(ele);
+    let ele = createNodeDOM("3_3", "233");
+    document.getElementById("draw_board").appendChild(ele);
 }
 
 window.onresize = function(){

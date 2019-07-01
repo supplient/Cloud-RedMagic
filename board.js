@@ -28,6 +28,37 @@ class NodeStatus {
 //      means the 1st gcd's 3rd branch's node status.
 let g_node_status_map = new Map();
 
+// node logic support functions
+
+// node DOM operating functions
+function svgCreateElement(tag) {
+    return document.createElementNS("http://www.w3.org/2000/svg", tag);
+}
+
+function createNodeDOM(index, prev_index) {
+    let node_DOM = svgCreateElement("g");
+    node_DOM.setAttribute("name", index);
+    node_DOM.setAttribute("transform", "translate(0, 0)");
+
+    let frame_DOM = svgCreateElement("rect");
+    let frame_attrs = {
+        "class": "svg_node_frame",
+        "x": "0",
+        "y": "0",
+        "width": "68",
+        "height": "95",
+        "rx": "5",
+        "fill": "white"
+    };
+    for (const name of Object.keys(frame_attrs)) {
+        frame_DOM.setAttribute(name, frame_attrs[name]);
+    }
+    node_DOM.append(frame_DOM);
+
+    let ins_action_0_DOM = svgCreateElement("image");
+
+    return node_DOM;
+}
 
 // view drag functions
 let drag_switch = false;
