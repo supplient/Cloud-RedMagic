@@ -7,6 +7,10 @@
     min-height: 200px;
 }
 
+.svg_node {
+    width: auto;
+}
+
 .svg_node_frame {
     stroke: rgb(0, 0, 0);
     stroke-width: 1px;

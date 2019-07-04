@@ -31,14 +31,17 @@ let g_node_status_map = new Map();
 // node logic support functions
 
 // node DOM operating functions
+const NS_SVG = "http://www.w3.org/2000/svg";
+const NS_XLINK = "http://www.w3.org/1999/xlink";
+
 function svgCreateElement(tag) {
-    return document.createElementNS("http://www.w3.org/2000/svg", tag);
+    return document.createElementNS(NS_SVG, tag);
 }
 
-function svgAssignAttrsToDOM(DOM, attrs) {
+function svgSetAttrsOfDOM(DOM, attrs) {
     for (const name of Object.keys(attrs)) {
         if (name == "xlink:href")
-            DOM.setAttributeNS("http://www.w3.org/1999/xlink", name, attrs[name]);
+            DOM.setAttributeNS(NS_XLINK, name, attrs[name]);
         else
             DOM.setAttribute(name, attrs[name]);
     }
@@ -47,11 +50,14 @@ function svgAssignAttrsToDOM(DOM, attrs) {
 function createNodeDOM(index) {
     // Only create a Node DOM, not linked with NodeStatus
     let node_DOM = svgCreateElement("g");
-    node_DOM.setAttribute("name", index);
-    node_DOM.setAttribute("transform", "translate(0, 0)");
+    svgSetAttrsOfDOM(node_DOM, {
+        "class": "svg_node",
+        "name": index,
+        "transform": "translate(0, 0)",
+    })
 
     let frame_DOM = svgCreateElement("rect");
-    svgAssignAttrsToDOM(frame_DOM, {
+    svgSetAttrsOfDOM(frame_DOM, {
         "class": "svg_node_frame",
         "x": "0",
         "y": "0",
@@ -63,7 +69,7 @@ function createNodeDOM(index) {
     node_DOM.append(frame_DOM);
 
     let ins_action_0_DOM = svgCreateElement("image");
-    svgAssignAttrsToDOM(ins_action_0_DOM, {
+    svgSetAttrsOfDOM(ins_action_0_DOM, {
         "name": "ins_action_0",
         "xlink:href": "resource/node_blank_ins.png",
         "x": "2",
@@ -74,7 +80,7 @@ function createNodeDOM(index) {
     node_DOM.append(ins_action_0_DOM);
 
     let ins_action_1_DOM = svgCreateElement("image");
-    svgAssignAttrsToDOM(ins_action_1_DOM, {
+    svgSetAttrsOfDOM(ins_action_1_DOM, {
         "name": "ins_action_1",
         "xlink:href": "resource/node_blank_ins.png",
         "x": "36",
@@ -85,7 +91,7 @@ function createNodeDOM(index) {
     node_DOM.append(ins_action_1_DOM);
 
     let gcd_action_DOM = svgCreateElement("image");
-    svgAssignAttrsToDOM(gcd_action_DOM, {
+    svgSetAttrsOfDOM(gcd_action_DOM, {
         "name": "gcd_action",
         "xlink:href": "resource/node_blank_gcd.png",
         "x": "4",
@@ -96,6 +102,26 @@ function createNodeDOM(index) {
     node_DOM.append(gcd_action_DOM);
 
     return node_DOM;
+}
+
+function getNodeDOM(index) {
+    return document.querySelector("g.svg_node[name='" + index + "']");
+}
+
+function NodeDOMMoveTo(index, x, y) {
+    let dom = getNodeDOM(index);
+    let trans_str = "translate(" + x + ", " + y + ")";
+    svgSetAttrsOfDOM(dom, {
+        "transform": trans_str,
+    });
+}
+
+function NodeDOMChangeImage(index, img_name, img_path) {
+    let dom = getNodeDOM(index);
+    let img_dom = dom.querySelector("image[name='" + img_name + "']");
+    svgSetAttrsOfDOM(img_dom, {
+        "xlink:href": img_path,
+    });
 }
 
 // view drag functions
