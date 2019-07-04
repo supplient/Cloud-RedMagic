@@ -35,27 +35,65 @@ function svgCreateElement(tag) {
     return document.createElementNS("http://www.w3.org/2000/svg", tag);
 }
 
-function createNodeDOM(index, prev_index) {
+function svgAssignAttrsToDOM(DOM, attrs) {
+    for (const name of Object.keys(attrs)) {
+        if (name == "xlink:href")
+            DOM.setAttributeNS("http://www.w3.org/1999/xlink", name, attrs[name]);
+        else
+            DOM.setAttribute(name, attrs[name]);
+    }
+}
+
+function createNodeDOM(index) {
+    // Only create a Node DOM, not linked with NodeStatus
     let node_DOM = svgCreateElement("g");
     node_DOM.setAttribute("name", index);
     node_DOM.setAttribute("transform", "translate(0, 0)");
 
     let frame_DOM = svgCreateElement("rect");
-    let frame_attrs = {
+    svgAssignAttrsToDOM(frame_DOM, {
         "class": "svg_node_frame",
         "x": "0",
         "y": "0",
         "width": "68",
         "height": "95",
         "rx": "5",
-        "fill": "white"
-    };
-    for (const name of Object.keys(frame_attrs)) {
-        frame_DOM.setAttribute(name, frame_attrs[name]);
-    }
+        "fill": "white",
+    })
     node_DOM.append(frame_DOM);
 
     let ins_action_0_DOM = svgCreateElement("image");
+    svgAssignAttrsToDOM(ins_action_0_DOM, {
+        "name": "ins_action_0",
+        "xlink:href": "resource/node_blank_ins.png",
+        "x": "2",
+        "y": "2",
+        "width": "30",
+        "height": "30",
+    })
+    node_DOM.append(ins_action_0_DOM);
+
+    let ins_action_1_DOM = svgCreateElement("image");
+    svgAssignAttrsToDOM(ins_action_1_DOM, {
+        "name": "ins_action_1",
+        "xlink:href": "resource/node_blank_ins.png",
+        "x": "36",
+        "y": "2",
+        "width": "30",
+        "height": "30",
+    })
+    node_DOM.append(ins_action_1_DOM);
+
+    let gcd_action_DOM = svgCreateElement("image");
+    svgAssignAttrsToDOM(gcd_action_DOM, {
+        "name": "gcd_action",
+        "xlink:href": "resource/node_blank_gcd.png",
+        "x": "4",
+        "y": "33",
+        "width": "60",
+        "height": "60",
+    })
+    node_DOM.append(gcd_action_DOM);
 
     return node_DOM;
 }
