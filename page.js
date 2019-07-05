@@ -88,8 +88,9 @@ window.onload = function(){
 
     // let ele = document.querySelector("g[name='0_0']");
     // console.debug(ele);
-    let ele = createNodeDOM("3_3");
-    document.getElementById("draw_board").appendChild(ele);
+    document.getElementById("draw_board").appendChild(createNodeDOM("3_3"));
+    document.getElementById("draw_board").appendChild(createNodeDOM("3_4"));
+    NodeDOMMoveTo("3_4", 0, 100);
 }
 
 window.onresize = function(){

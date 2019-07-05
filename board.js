@@ -49,6 +49,8 @@ function svgSetAttrsOfDOM(DOM, attrs) {
 
 function createNodeDOM(index) {
     // Only create a Node DOM, not linked with NodeStatus
+
+    // DOM itself's creating
     let node_DOM = svgCreateElement("g");
     svgSetAttrsOfDOM(node_DOM, {
         "class": "svg_node",
@@ -101,6 +103,21 @@ function createNodeDOM(index) {
     })
     node_DOM.append(gcd_action_DOM);
 
+    // regist event handlers
+    node_DOM.onclick = function(e) {
+        onNodeClick(index);
+    }
+    gcd_action_DOM.onclick = function(e) {
+        onGCDClick(index);
+    }
+    ins_action_0_DOM.onclick = function(e) {
+        onIns0Click(index);
+    }
+    ins_action_1_DOM.onclick = function(e) {
+        onIns1Click(index);
+    }
+
+
     return node_DOM;
 }
 
@@ -122,6 +139,50 @@ function NodeDOMChangeImage(index, img_name, img_path) {
     svgSetAttrsOfDOM(img_dom, {
         "xlink:href": img_path,
     });
+}
+
+function NodeDOMSetSelected(index, is_to_select) {
+    let dom = getNodeDOM(index);
+    if (is_to_select) {
+        dom.classList.add("svg_node_selected");
+    }
+    else {
+        dom.classList.remove("svg_node_selected");
+    }
+}
+
+// node DOM event handlers
+let now_node_index = null;
+
+function onNodeClick(index) {
+    if (index == now_node_index)
+        return;
+    if (now_node_index) {
+        // remove the old select
+        NodeDOMSetSelected(now_node_index, false);
+    }
+    // update the new select
+    NodeDOMSetSelected(index, true);
+    now_node_index = index;
+    console.debug("node");
+}
+
+function onGCDClick(index) {
+    if (index != now_node_index)
+        return;
+    console.debug("gcd");
+}
+
+function onIns0Click(index) {
+    if (index != now_node_index)
+        return;
+    console.debug("ins0");
+}
+
+function onIns1Click(index) {
+    if (index != now_node_index)
+        return;
+    console.debug("ins1");
 }
 
 // view drag functions
