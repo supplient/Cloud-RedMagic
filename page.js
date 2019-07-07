@@ -25,51 +25,56 @@ let init_status = new InitStatus();
 function onRollBtn(){
     // Update init_status
     randomInitStatus();
-    refreshInitStatus();
+    InitStatusDOM.refreshInitStatus();
 }
 
 
 // --------------------------------------------
 // DOM operate functions
-function isActionTriggered(dom_obj) {
-    return dom_obj.classList.contains("ac_triggered");
-}
 
-function getTriggerActionDOM(ac_name) {
-    return document.querySelector("img.ac_item[name=" + ac_name + "]");
-}
-
-function switchTriggerAction(ac_name, is_triggered=undefined){
-    let ele = getTriggerActionDOM(ac_name);
-
-    let target_status = is_triggered;
-    if (typeof(is_triggered) == "undefined") {
-        target_status = !isActionTriggered(ele);
+// TODO: This namespace seems not good, since now it not only works for initStatus.
+class InitStatusDOM {
+    static isActionTriggered(dom_obj) {
+        return dom_obj.classList.contains("ac_triggered");
     }
 
-    if (target_status)
-        ele.classList.add("ac_triggered");
-    else
-        ele.classList.remove("ac_triggered");
-}
+    static getTriggerActionDOM(ac_name) {
+        return document.querySelector("img.ac_item[name=" + ac_name + "]");
+    }
 
-function getMagicValueNumDOM(box_name, magic_name) {
-    let box = document.querySelector("div.magic_value_box[name=" + box_name + "]");
-    return box.querySelector("div.magic_value_num[name=" + magic_name + "]");
-}
+    static switchTriggerAction(ac_name, is_triggered=undefined){
+        let ele = InitStatusDOM.getTriggerActionDOM(ac_name);
 
-function setMagicValue(box_name, magic_name, value) {
-    let ele = getMagicValueNumDOM(box_name, magic_name);
-    ele.innerText = String(value);
-}
+        let target_status = is_triggered;
+        if (typeof(is_triggered) == "undefined") {
+            target_status = !InitStatusDOM.isActionTriggered(ele);
+        }
 
-function refreshInitStatus() {
-    setMagicValue("init", "white", init_status.white_value);
-    setMagicValue("init", "black", init_status.black_value);
-    for (const [ac_name, is_triggered] of init_status.ac_triggered_map) {
-        switchTriggerAction(ac_name, is_triggered);
+        if (target_status)
+            ele.classList.add("ac_triggered");
+        else
+            ele.classList.remove("ac_triggered");
+    }
+
+    static getMagicValueNumDOM(box_name, magic_name) {
+        let box = document.querySelector("div.magic_value_box[name=" + box_name + "]");
+        return box.querySelector("div.magic_value_num[name=" + magic_name + "]");
+    }
+
+    static setMagicValue(box_name, magic_name, value) {
+        let ele = InitStatusDOM.getMagicValueNumDOM(box_name, magic_name);
+        ele.innerText = String(value);
+    }
+
+    static refresh() {
+        InitStatusDOM.setMagicValue("init", "white", init_status.white_value);
+        InitStatusDOM.setMagicValue("init", "black", init_status.black_value);
+        for (const [ac_name, is_triggered] of init_status.ac_triggered_map) {
+            InitStatusDOM.switchTriggerAction(ac_name, is_triggered);
+        }
     }
 }
+
 
 // --------------------------------------------
 // Global window events
@@ -83,8 +88,8 @@ window.onload = function(){
 
     // DEBUG:
     createAndInsertBuffDOM("stone", 22);
-    setMagicValue("now", "white", 28);
-    setMagicValue("now", "black", 88);
+    InitStatusDOM.setMagicValue("now", "white", 28);
+    InitStatusDOM.setMagicValue("now", "black", 88);
 
     // let ele = document.querySelector("g[name='0_0']");
     // console.debug(ele);
