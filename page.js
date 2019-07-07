@@ -87,7 +87,7 @@ window.onload = function(){
     updateBoardViewBoxForWindowResize();
 
     // DEBUG:
-    createAndInsertBuffDOM("stone", 22);
+    NowStatusBuffDOM.createAndInsert("stone", 22);
     InitStatusDOM.setMagicValue("now", "white", 28);
     InitStatusDOM.setMagicValue("now", "black", 88);
 
