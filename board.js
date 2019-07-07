@@ -49,13 +49,11 @@ function svgSetAttrsOfDOM(DOM, attrs) {
 
 
 // node DOM namespace(a so-called namespace, actually not)
-class NodeDOM {
-    constructor() {
-        throw "This should never be constructed";
-    }
+class NodeDOM_meta {
+    constructor() {}
 
     // node DOM operating functions
-    static create(index) {
+    create(index) {
         // Only create a Node DOM, not linked with NodeStatus
 
         // DOM itself's creating
@@ -128,11 +126,11 @@ class NodeDOM {
         return node_DOM;
     }
 
-    static get(index) {
+    get(index) {
         return document.querySelector("g.svg_node[name='" + index + "']");
     }
 
-    static moveTo(index, x, y) {
+    moveTo(index, x, y) {
         let dom = NodeDOM.get(index);
         let trans_str = "translate(" + x + ", " + y + ")";
         svgSetAttrsOfDOM(dom, {
@@ -140,7 +138,7 @@ class NodeDOM {
         });
     }
 
-    static changeImage(index, img_name, img_path) {
+    changeImage(index, img_name, img_path) {
         let dom = NodeDOM.get(index);
         let img_dom = dom.querySelector("image[name='" + img_name + "']");
         svgSetAttrsOfDOM(img_dom, {
@@ -148,7 +146,7 @@ class NodeDOM {
         });
     }
 
-    static setSelected(index, is_to_select) {
+    setSelected(index, is_to_select) {
         let dom = NodeDOM.get(index);
         if (is_to_select) {
             dom.classList.add("svg_node_selected");
@@ -158,6 +156,7 @@ class NodeDOM {
         }
     }
 }
+let NodeDOM = new NodeDOM_meta();
 
 
 // node DOM event handlers

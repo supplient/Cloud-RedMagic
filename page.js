@@ -33,16 +33,18 @@ function onRollBtn(){
 // DOM operate functions
 
 // TODO: This namespace seems not good, since now it not only works for initStatus.
-class InitStatusDOM {
-    static isActionTriggered(dom_obj) {
+class InitStatusDOM_meta {
+    constructor() {}
+
+    isActionTriggered(dom_obj) {
         return dom_obj.classList.contains("ac_triggered");
     }
 
-    static getTriggerActionDOM(ac_name) {
+    getTriggerActionDOM(ac_name) {
         return document.querySelector("img.ac_item[name=" + ac_name + "]");
     }
 
-    static switchTriggerAction(ac_name, is_triggered=undefined){
+    switchTriggerAction(ac_name, is_triggered=undefined){
         let ele = InitStatusDOM.getTriggerActionDOM(ac_name);
 
         let target_status = is_triggered;
@@ -56,17 +58,17 @@ class InitStatusDOM {
             ele.classList.remove("ac_triggered");
     }
 
-    static getMagicValueNumDOM(box_name, magic_name) {
+    getMagicValueNumDOM(box_name, magic_name) {
         let box = document.querySelector("div.magic_value_box[name=" + box_name + "]");
         return box.querySelector("div.magic_value_num[name=" + magic_name + "]");
     }
 
-    static setMagicValue(box_name, magic_name, value) {
+    setMagicValue(box_name, magic_name, value) {
         let ele = InitStatusDOM.getMagicValueNumDOM(box_name, magic_name);
         ele.innerText = String(value);
     }
 
-    static refresh() {
+    refresh() {
         InitStatusDOM.setMagicValue("init", "white", init_status.white_value);
         InitStatusDOM.setMagicValue("init", "black", init_status.black_value);
         for (const [ac_name, is_triggered] of init_status.ac_triggered_map) {
@@ -74,6 +76,7 @@ class InitStatusDOM {
         }
     }
 }
+let InitStatusDOM = new InitStatusDOM_meta();
 
 
 // --------------------------------------------
