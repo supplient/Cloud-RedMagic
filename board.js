@@ -30,7 +30,7 @@ let g_node_status_map = new Map();
 
 // node logic support functions
 
-// node DOM operating functions
+// svg concered support functions
 const NS_SVG = "http://www.w3.org/2000/svg";
 const NS_XLINK = "http://www.w3.org/1999/xlink";
 
@@ -47,109 +47,118 @@ function svgSetAttrsOfDOM(DOM, attrs) {
     }
 }
 
-function createNodeDOM(index) {
-    // Only create a Node DOM, not linked with NodeStatus
 
-    // DOM itself's creating
-    let node_DOM = svgCreateElement("g");
-    svgSetAttrsOfDOM(node_DOM, {
-        "class": "svg_node",
-        "name": index,
-        "transform": "translate(0, 0)",
-    })
-
-    let frame_DOM = svgCreateElement("rect");
-    svgSetAttrsOfDOM(frame_DOM, {
-        "class": "svg_node_frame",
-        "x": "0",
-        "y": "0",
-        "width": "68",
-        "height": "95",
-        "rx": "5",
-        "fill": "white",
-    })
-    node_DOM.append(frame_DOM);
-
-    let ins_action_0_DOM = svgCreateElement("image");
-    svgSetAttrsOfDOM(ins_action_0_DOM, {
-        "name": "ins_action_0",
-        "xlink:href": "resource/node_blank_ins.png",
-        "x": "2",
-        "y": "2",
-        "width": "30",
-        "height": "30",
-    })
-    node_DOM.append(ins_action_0_DOM);
-
-    let ins_action_1_DOM = svgCreateElement("image");
-    svgSetAttrsOfDOM(ins_action_1_DOM, {
-        "name": "ins_action_1",
-        "xlink:href": "resource/node_blank_ins.png",
-        "x": "36",
-        "y": "2",
-        "width": "30",
-        "height": "30",
-    })
-    node_DOM.append(ins_action_1_DOM);
-
-    let gcd_action_DOM = svgCreateElement("image");
-    svgSetAttrsOfDOM(gcd_action_DOM, {
-        "name": "gcd_action",
-        "xlink:href": "resource/node_blank_gcd.png",
-        "x": "4",
-        "y": "33",
-        "width": "60",
-        "height": "60",
-    })
-    node_DOM.append(gcd_action_DOM);
-
-    // regist event handlers
-    node_DOM.onclick = function(e) {
-        onNodeClick(index);
-    }
-    gcd_action_DOM.onclick = function(e) {
-        onGCDClick(index);
-    }
-    ins_action_0_DOM.onclick = function(e) {
-        onIns0Click(index);
-    }
-    ins_action_1_DOM.onclick = function(e) {
-        onIns1Click(index);
+// node DOM namespace(a so-called namespace, actually not)
+class NodeDOM {
+    constructor() {
+        throw "This should never be constructed";
     }
 
+    // node DOM operating functions
+    static create(index) {
+        // Only create a Node DOM, not linked with NodeStatus
 
-    return node_DOM;
+        // DOM itself's creating
+        let node_DOM = svgCreateElement("g");
+        svgSetAttrsOfDOM(node_DOM, {
+            "class": "svg_node",
+            "name": index,
+            "transform": "translate(0, 0)",
+        })
+
+        let frame_DOM = svgCreateElement("rect");
+        svgSetAttrsOfDOM(frame_DOM, {
+            "class": "svg_node_frame",
+            "x": "0",
+            "y": "0",
+            "width": "68",
+            "height": "95",
+            "rx": "5",
+            "fill": "white",
+        })
+        node_DOM.append(frame_DOM);
+
+        let ins_action_0_DOM = svgCreateElement("image");
+        svgSetAttrsOfDOM(ins_action_0_DOM, {
+            "name": "ins_action_0",
+            "xlink:href": "resource/node_blank_ins.png",
+            "x": "2",
+            "y": "2",
+            "width": "30",
+            "height": "30",
+        })
+        node_DOM.append(ins_action_0_DOM);
+
+        let ins_action_1_DOM = svgCreateElement("image");
+        svgSetAttrsOfDOM(ins_action_1_DOM, {
+            "name": "ins_action_1",
+            "xlink:href": "resource/node_blank_ins.png",
+            "x": "36",
+            "y": "2",
+            "width": "30",
+            "height": "30",
+        })
+        node_DOM.append(ins_action_1_DOM);
+
+        let gcd_action_DOM = svgCreateElement("image");
+        svgSetAttrsOfDOM(gcd_action_DOM, {
+            "name": "gcd_action",
+            "xlink:href": "resource/node_blank_gcd.png",
+            "x": "4",
+            "y": "33",
+            "width": "60",
+            "height": "60",
+        })
+        node_DOM.append(gcd_action_DOM);
+
+        // regist event handlers
+        node_DOM.onclick = function(e) {
+            onNodeClick(index);
+        }
+        gcd_action_DOM.onclick = function(e) {
+            onGCDClick(index);
+        }
+        ins_action_0_DOM.onclick = function(e) {
+            onIns0Click(index);
+        }
+        ins_action_1_DOM.onclick = function(e) {
+            onIns1Click(index);
+        }
+
+        return node_DOM;
+    }
+
+    static get(index) {
+        return document.querySelector("g.svg_node[name='" + index + "']");
+    }
+
+    static moveTo(index, x, y) {
+        let dom = NodeDOM.get(index);
+        let trans_str = "translate(" + x + ", " + y + ")";
+        svgSetAttrsOfDOM(dom, {
+            "transform": trans_str,
+        });
+    }
+
+    static changeImage(index, img_name, img_path) {
+        let dom = NodeDOM.get(index);
+        let img_dom = dom.querySelector("image[name='" + img_name + "']");
+        svgSetAttrsOfDOM(img_dom, {
+            "xlink:href": img_path,
+        });
+    }
+
+    static setSelected(index, is_to_select) {
+        let dom = NodeDOM.get(index);
+        if (is_to_select) {
+            dom.classList.add("svg_node_selected");
+        }
+        else {
+            dom.classList.remove("svg_node_selected");
+        }
+    }
 }
 
-function getNodeDOM(index) {
-    return document.querySelector("g.svg_node[name='" + index + "']");
-}
-
-function NodeDOMMoveTo(index, x, y) {
-    let dom = getNodeDOM(index);
-    let trans_str = "translate(" + x + ", " + y + ")";
-    svgSetAttrsOfDOM(dom, {
-        "transform": trans_str,
-    });
-}
-
-function NodeDOMChangeImage(index, img_name, img_path) {
-    let dom = getNodeDOM(index);
-    let img_dom = dom.querySelector("image[name='" + img_name + "']");
-    svgSetAttrsOfDOM(img_dom, {
-        "xlink:href": img_path,
-    });
-}
-
-function NodeDOMSetSelected(index, is_to_select) {
-    let dom = getNodeDOM(index);
-    if (is_to_select) {
-        dom.classList.add("svg_node_selected");
-    }
-    else {
-        dom.classList.remove("svg_node_selected");
-    }
-}
 
 // node DOM event handlers
 let now_node_index = null;
@@ -159,10 +168,10 @@ function onNodeClick(index) {
         return;
     if (now_node_index) {
         // remove the old select
-        NodeDOMSetSelected(now_node_index, false);
+        NodeDOM.setSelected(now_node_index, false);
     }
     // update the new select
-    NodeDOMSetSelected(index, true);
+    NodeDOM.setSelected(index, true);
     now_node_index = index;
     console.debug("node");
 }
