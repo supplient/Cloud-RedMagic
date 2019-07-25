@@ -158,7 +158,6 @@ class NodeDOM_meta {
 }
 let NodeDOM = new NodeDOM_meta();
 
-
 // node DOM event handlers
 let now_node_index = null;
 
@@ -193,7 +192,12 @@ function onIns1Click(index) {
     console.debug("ins1");
 }
 
-// view drag functions
+// node DOM high logic functions
+function GoToSucceedNode(is_reverse) {
+    console.debug("node tab");
+}
+
+// SVG view event handlers
 let drag_switch = false;
 let drag_viewbox_offset = {x: 0, y: 0};
 function SVG_onMouseDown(event) {

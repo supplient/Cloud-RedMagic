@@ -81,6 +81,19 @@ let InitStatusDOM = new InitStatusDOM_meta();
 
 // --------------------------------------------
 // Global window events
+document.onkeydown = function(event) {
+    // Block default behaviors for such as TAB, SPACE...
+    event.preventDefault();
+}
+
+document.onkeyup = function(event) {
+    if (event.key == "Tab") {
+        if (now_node_index) // if no now_node, we do nothing.
+            GoToSucceedNode(event.shiftKey);
+        event.preventDefault();
+    }
+}
+
 window.onload = function(){
     // regist elements' event listeners
     document.getElementById("draw_board").onmousedown = SVG_onMouseDown;
@@ -97,8 +110,8 @@ window.onload = function(){
     // let ele = document.querySelector("g[name='0_0']");
     // console.debug(ele);
     document.getElementById("draw_board").appendChild(NodeDOM.create("3_3"));
-    document.getElementById("draw_board").appendChild(NodeDOM.create("3_4"));
-    NodeDOM.moveTo("3_4", 0, 100);
+    // document.getElementById("draw_board").appendChild(NodeDOM.create("3_4"));
+    // NodeDOM.moveTo("3_4", 0, 100);
 }
 
 window.onresize = function(){
