@@ -1,34 +1,39 @@
-// work buff class defination
-class WorkBuff {
-    constructor(buff_obj, rest_time) {
-        this.buff_obj = buff_obj;
-        this.rest_time = rest_time;
-    }
-}
+// These code now not being used
+// ***  // work buff class defination
+// ***  class WorkBuff {
+// ***      constructor(buff_obj, rest_time) {
+// ***          this.buff_obj = buff_obj;
+// ***          this.rest_time = rest_time;
+// ***      }
+// ***  }
 
-// node concerned class defination
-class NodeStatus {
-    constructor(prev, 
-        white_magic, black_magic, work_buff_list
-        ) {
-        this.prev = prev;
-        this.white_magic = white_magic;
-        this.black_magic = black_magic;
-        this.work_buff_list = work_buff_list;
+// ***  // node concerned class defination
+// ***  class NodeStatus {
+// ***      constructor(prev, 
+// ***          white_magic, black_magic, work_buff_list
+// ***          ) {
+// ***          this.prev = prev;
+// ***          this.white_magic = white_magic;
+// ***          this.black_magic = black_magic;
+// ***          this.work_buff_list = work_buff_list;
 
-        this.gcd_action = null;
-        this.ins_action_0 = null;
-        this.ins_action_1 = null;
-    }
-}
+// ***          this.gcd_action = null;
+// ***          this.ins_action_0 = null;
+// ***          this.ins_action_1 = null;
+// ***      }
+// ***  }
 
-// g_node_status_map declaration
-// id => object
-// e.g. "0_2" => object
-//      means the 1st gcd's 3rd branch's node status.
-let g_node_status_map = new Map();
+// ***  // g_node_status_map declaration
+// ***  // id => object
+// ***  // e.g. "0_2" => object
+// ***  //      means the 1st gcd's 3rd branch's node status.
+// ***  let g_node_status_map = new Map();
 
-// node logic support functions
+// ***  // node logic support functions
+
+
+
+
 
 // svg concered support functions
 const NS_SVG = "http://www.w3.org/2000/svg";
@@ -192,10 +197,44 @@ function onIns1Click(index) {
     console.debug("ins1");
 }
 
-// node DOM high logic functions
+
+// node class defination
+// Note: we cannot call it 'Node' because of the name conflict
+class GCDNode {
+    constructor(prev, index) {
+        this.prev = prev;
+        this.index = index;
+
+        // create DOM itself first
+        let node_DOM = NodeDOM.create(index);
+        document.getElementById("draw_board").appendChild(node_DOM);
+    }
+}
+// g_node_status_map declaration
+// id => object
+// e.g. "1_2" => object
+//      means the 2nd gcd's 3rd branch's node status.
+let g_node_map = new Map();
+
+
+// node high logic functions
+function createRootNode() {
+    // create root node according to the init_status
+    // TODO: here we have not fill init_status
+    const root_index = "0_0";
+
+    let root_node = new GCDNode(null, root_index);
+    g_node_map.set(root_index, root_node);
+}
+
 function GoToSucceedNode(is_reverse) {
     console.debug("node tab");
 }
+
+
+
+
+// ----------------------------------------------------------------------------
 
 // SVG view event handlers
 let drag_switch = false;

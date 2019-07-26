@@ -82,8 +82,14 @@ let InitStatusDOM = new InitStatusDOM_meta();
 // --------------------------------------------
 // Global window events
 document.onkeydown = function(event) {
-    // Block default behaviors for such as TAB, SPACE...
-    event.preventDefault();
+    let block_keys = [
+        "Tab",
+        "Space",
+    ];
+
+    if (block_keys.indexOf(event.key) > -1) {
+        event.preventDefault();
+    }
 }
 
 document.onkeyup = function(event) {
@@ -109,7 +115,7 @@ window.onload = function(){
 
     // let ele = document.querySelector("g[name='0_0']");
     // console.debug(ele);
-    document.getElementById("draw_board").appendChild(NodeDOM.create("3_3"));
+    createRootNode();
     // document.getElementById("draw_board").appendChild(NodeDOM.create("3_4"));
     // NodeDOM.moveTo("3_4", 0, 100);
 }
