@@ -52,6 +52,13 @@ function svgSetAttrsOfDOM(DOM, attrs) {
     }
 }
 
+function svgGetAttrOfDOM(DOM, name) {
+    if (name == "xlink:href")
+        return DOM.getAttributeNS(NS_XLINK, name);
+    else
+        return DOM.getAttribute(name);
+}
+
 
 // node DOM namespace(a so-called namespace, actually not)
 class NodeDOM_meta {
@@ -135,6 +142,22 @@ class NodeDOM_meta {
         return document.querySelector("g.svg_node[name='" + index + "']");
     }
 
+    getX(index) {
+        let dom = NodeDOM.get(index);
+        let trans_str = svgGetAttrOfDOM(dom, "transform");
+        trans_str = trans_str.substring(10, trans_str.length-1);
+        let coord = trans_str.split(",");
+        return parseInt(coord[0]);
+    }
+
+    getY(index) {
+        let dom = NodeDOM.get(index);
+        let trans_str = svgGetAttrOfDOM(dom, "transform");
+        trans_str = trans_str.substring(10, trans_str.length-1);
+        let coord = trans_str.split(",");
+        return parseInt(coord[1]);
+    }
+
     moveTo(index, x, y) {
         let dom = NodeDOM.get(index);
         let trans_str = "translate(" + x + ", " + y + ")";
@@ -204,6 +227,7 @@ class GCDNode {
         this.index = index;
         
         this.children = [];
+        this.tree_width = 1; // count in node num
 
         // create DOM itself first
         let node_DOM = NodeDOM.create(index);
@@ -223,6 +247,27 @@ class GCDNode {
         return parseInt(split_index[1]);
     }
 
+    updateTreeWidth() {
+        let new_width = 0;
+        for(const child of this.children) {
+            new_width += child.tree_width;
+        }
+
+        if(new_width <= 1) {
+            if(this.tree_width != 1) {
+                this.tree_width = 1;
+                if(this.parent)
+                    this.parent.updateTreeWidth();
+            }
+        }
+        else if(new_width != this.tree_width){
+            this.tree_width = new_width;
+            // Recursive upwards
+            if(this.parent)
+                this.parent.updateTreeWidth();
+        }
+    }
+
     createChild() {
         // Determine child's index
         let child_gcd_no = this.getGCDNO() + 1;
@@ -238,8 +283,11 @@ class GCDNode {
         let child_node = new GCDNode(this, child_index);
         this.children.push(child_node);
 
+        // Update tree width
+        this.updateTreeWidth();
+
         // Rearrange the tree
-        rearrangeTree();
+        rearrangeTree(getRootNode());
     }
 }
 
@@ -250,6 +298,11 @@ function createRootNode() {
     const root_index = "0_0";
 
     let root_node = new GCDNode(null, root_index);
+}
+
+function getRootNode() {
+    const root_index = "0_0";
+    return g_node_map.get(root_index);
 }
 
 function GoToSucceedNode(is_reverse) {
@@ -291,8 +344,30 @@ function updateNowNode(new_index) {
     now_node_index = new_index;
 }
 
-function rearrangeTree() {
-    // TODO
+const NODE_WIDTH = 68;
+const NODE_HEIGHT = 95;
+const NODE_X_MARGIN = 20;
+const NODE_Y_MARGIN = 10;
+function rearrangeTree(root) {
+    let init_x = NodeDOM.getX(root.index);
+    let init_y = NodeDOM.getY(root.index);
+
+    let x = init_x + NODE_WIDTH + NODE_X_MARGIN;
+    let per_y = NODE_HEIGHT + NODE_Y_MARGIN;
+    let total_y = per_y * root.tree_width - NODE_Y_MARGIN;
+    let y = init_y - total_y/2;
+
+    for(const child of root.children) {
+        let total_child_y = per_y * child.tree_width - NODE_Y_MARGIN;
+        let child_y = y + total_child_y/2;
+        NodeDOM.moveTo(child.index, x, child_y);
+
+        y = y + total_child_y + NODE_Y_MARGIN;
+    }
+
+    for(const child of root.children) {
+        rearrangeTree(child);
+    }
 }
 
 

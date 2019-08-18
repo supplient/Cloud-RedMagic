@@ -94,8 +94,9 @@ document.onkeydown = function(event) {
 
 document.onkeyup = function(event) {
     if (event.key == "Tab") {
-        if (now_node_index) // if no now_node, we do nothing.
+        if (now_node_index) { // if no now_node, we do nothing.
             GoToSucceedNode(event.shiftKey);
+        }
         event.preventDefault();
     }
 }
