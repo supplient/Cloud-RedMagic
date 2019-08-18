@@ -167,15 +167,7 @@ let NodeDOM = new NodeDOM_meta();
 let now_node_index = null;
 
 function onNodeClick(index) {
-    if (index == now_node_index)
-        return;
-    if (now_node_index) {
-        // remove the old select
-        NodeDOM.setSelected(now_node_index, false);
-    }
-    // update the new select
-    NodeDOM.setSelected(index, true);
-    now_node_index = index;
+    updateNowNode(index);
     console.debug("node");
 }
 
@@ -197,25 +189,59 @@ function onIns1Click(index) {
     console.debug("ins1");
 }
 
-
-// node class defination
-// Note: we cannot call it 'Node' because of the name conflict
-class GCDNode {
-    constructor(prev, index) {
-        this.prev = prev;
-        this.index = index;
-
-        // create DOM itself first
-        let node_DOM = NodeDOM.create(index);
-        document.getElementById("draw_board").appendChild(node_DOM);
-    }
-}
 // g_node_status_map declaration
 // id => object
 // e.g. "1_2" => object
 //      means the 2nd gcd's 3rd branch's node status.
 let g_node_map = new Map();
 
+// node class defination
+// Note: we cannot call it 'Node' because of the name conflict
+class GCDNode {
+    constructor(parent, index) {
+        // init status
+        this.parent = parent;
+        this.index = index;
+        
+        this.children = [];
+
+        // create DOM itself first
+        let node_DOM = NodeDOM.create(index);
+        document.getElementById("draw_board").appendChild(node_DOM);
+
+        // update g_node_map
+        g_node_map.set(index, this);
+    }
+
+    getGCDNO() {
+        let split_index = this.index.split("_");
+        return parseInt(split_index[0]);
+    }
+
+    getBranchNO() {
+        let split_index = this.index.split("_");
+        return parseInt(split_index[1]);
+    }
+
+    createChild() {
+        // Determine child's index
+        let child_gcd_no = this.getGCDNO() + 1;
+        let child_branch_no = 0;
+
+        let child_index = child_gcd_no + "_" + child_branch_no;
+        while(g_node_map.get(child_index)) {
+            child_branch_no++;
+            child_index = child_gcd_no + "_" + child_branch_no;
+        }
+
+        // Create child Node & Update this's children
+        let child_node = new GCDNode(this, child_index);
+        this.children.push(child_node);
+
+        // Rearrange the tree
+        rearrangeTree();
+    }
+}
 
 // node high logic functions
 function createRootNode() {
@@ -224,13 +250,50 @@ function createRootNode() {
     const root_index = "0_0";
 
     let root_node = new GCDNode(null, root_index);
-    g_node_map.set(root_index, root_node);
 }
 
 function GoToSucceedNode(is_reverse) {
+    let now_node = g_node_map.get(now_node_index);
+    if (!now_node){
+        console.error("now_node is null when GoToSucceedNode");
+        return;
+    }
+
+    if (now_node.children.length == 0) {
+        // has no children, so we create a child first
+        now_node.createChild();
+
+        if (now_node.children.length == 0) {
+            console.error("create children with no result.");
+            return;
+        }
+    }
+
+    let child = null;
+    if (is_reverse)
+        child = now_node.children[now_node.children.length - 1];
+    else
+        child = now_node.children[0];
+    updateNowNode(child.index);
+
     console.debug("node tab");
 }
 
+function updateNowNode(new_index) {
+    if (new_index == now_node_index)
+        return;
+    if (now_node_index) {
+        // remove the old select
+        NodeDOM.setSelected(now_node_index, false);
+    }
+    // update the new select
+    NodeDOM.setSelected(new_index, true);
+    now_node_index = new_index;
+}
+
+function rearrangeTree() {
+    // TODO
+}
 
 
 
